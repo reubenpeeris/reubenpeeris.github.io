@@ -1,0 +1,28 @@
+title: Reuben Peeris
+email: reuben@reubenpeeris.com
+description: "This site contains bits and pieces I've made, or am interested in."
+url: "http://www.reubenpeeris.com"
+
+time_zone: GB
+encoding: utf-8
+
+gems:
+  - jekyll-redirect-from
+  - jekyll-gist
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+
+collections:
+  pages:
+   output: true
+   permalink: /:path/
+
+defaults:
+ - scope:
+    type: pages
+   values:
+     layout: page
+  

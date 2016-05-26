@@ -1,0 +1,151 @@
+/* Base */
+
+/*
+fdfdfd light gray
+444444 dark gray
+739240 light green
+425227 dark green
+ff6600 light orange
+c86000 dark orange
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  line-height: 1.5;
+  background-color: #fdfdfd;
+  color: #444444;
+}
+
+a         { color: #c86000; text-decoration: none; }
+a:hover   { text-decoration: underline; }
+a:visited { color: #739240; }
+
+/* Utility */
+
+.wrap:before,
+.wrap:after { content:""; display:table; }
+.wrap:after { clear: both; }
+.wrap {
+  padding: 0 2em;
+}
+
+
+/* Layout Styles */
+
+/* Header and footer */
+
+.site-header,
+.site-footer {
+  opacity: 0.7;
+}
+
+.site-header {
+  border-top: 5px solid #444444;
+  border-bottom: 1px solid #444444;
+}
+
+.site-nav {
+  line-height: 3em;
+}
+
+.site-nav .page-link {
+  margin-right: 1em;
+  color: #444444;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.site-footer {
+  border-top: 1px solid #444444;
+  padding: 2em 0;
+}
+
+.footer-column {
+  float: left;
+}
+
+.footer-column-left {
+  width: 50%;
+}
+.footer-column-right {
+  width: 50%;
+  text-align: right;
+}
+
+/* Page Content styles */
+
+.page-content {
+  padding: 1em 0;
+}
+
+
+/* Post styles */
+
+.post-content > * {
+    margin: 20px 0;
+}
+
+.post h1,
+.post h2,
+.post h3,
+.post h4 {
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: #c86000;
+}
+
+.post h1 {
+  font-size: 2.5em;
+}
+
+.post h2 {
+  font-size: 2em;
+}
+
+.post h3 {
+  font-size: 1.5em;
+}
+
+.post h4 {
+  font-size: 1.2em;
+}
+
+.post blockquote {
+  border-left: 0.3em solid #d5d5e9;
+  padding-left: 2em;
+  font-style: italic;
+  margin: 2em 0;
+}
+
+.post ul,
+.post ol {
+  padding-left: 2em;
+  margin-left: 1.35em;
+}
+
+.post pre,
+.post code {
+  border: 1px solid #d5d5e9;
+  background-color: #eeeeee;
+  border-radius: 0.3em;
+  font-size: 1.1em;
+  overflow: scroll;
+  padding: 0.1em;
+}
+
+.post pre code {
+  border: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
