@@ -1,0 +1,80 @@
+#!/bin/bash
+
+cd_project_root() {
+ cd "$( dirname "${BASH_SOURCE[0]}" )"
+ cd ..
+}
+
+require_clean_work_tree() {
+ git update-index -q --ignore-submodules --refresh
+
+ # Although git-status is a porcelain command, with the --porcelain option the output should be stable
+ if [[ -n $(git status --porcelain --ignore-submodules) ]]; then
+  echo >&2 "ERROR: worktree is unclean."
+  exit 1
+ fi
+}
+
+require_commit_in_jekyll_branch() {
+ if ! git merge-base --is-ancestor HEAD origin/jekyll; then
+  echo >&2 "ERROR: HEAD commit is not in remote jekyll branch"
+  exit 1
+ fi
+}
+
+head_commit() {
+ git rev-list --max-count=1 HEAD
+}
+
+head() {
+ local head
+ head="$(git symbolic-ref HEAD 2>/dev/null)" ||
+ head=$(head_commit) # detached                               
+ echo ${head##refs/heads/}
+}
+
+build_jekyll() {
+ bundle exec jekyll clean
+ bundle exec jekyll build
+}
+
+checkout_master() {
+ git read-tree -um HEAD master
+ git symbolic-ref HEAD refs/heads/master
+}
+
+update_files() {
+ # include sanity check that there is a .git dir in current folder
+ [[ -d .git ]] && find . -maxdepth 1 -not -name .gitignore -not -name '.git' -and -not -name '_site' -and -not -name '.' -and -not -name '..' -exec rm -Rf "{}" \;
+ cp -r _site/. ./
+
+ rm -R _site Gemfile Gemfile.lock
+}
+
+# this uses porcelain commands!
+write_commit() {
+ git add .
+ git commit -m "Jekyll build of $1"
+}
+
+# this uses porcelain commands!
+push_commit() {
+ git push origin
+}
+
+set -e
+
+cd_project_root
+
+require_clean_work_tree
+require_commit_in_jekyll_branch
+
+build_jekyll
+
+old_head_commit="$(head_commit)"
+checkout_master
+
+update_files
+
+write_commit $old_head_commit
+push_commit
