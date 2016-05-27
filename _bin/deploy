@@ -44,10 +44,8 @@ checkout_master() {
 }
 
 update_files() {
- # include sanity check that there is a .git dir in current folder
- [[ -d .git ]] && find . -maxdepth 1 -not -name .gitignore -not -name '.git' -and -not -name '_site' -and -not -name '.' -and -not -name '..' -exec rm -Rf "{}" \;
- cp -r _site/. ./
-
+ find . -maxdepth 1 -not \( -name '.git' -or -name '_site' -or -name '.' \) -exec rm -Rf "{}" \;
+ (shopt -s dotglob nullglob; mv _site/* ./)
  rm -R _site
 }
 
