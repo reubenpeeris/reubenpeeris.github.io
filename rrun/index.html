@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>rRun</title>
+  <meta charset="utf-8">
+  <meta name="description" content="This site contains bits and pieces I've made, or am interested in.">
+
+  <link rel="canonical" href="/rrun/">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"/>
+  <link rel="stylesheet" href="/css/main.css">
+ </head>
+
+ <body>
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+  
+  <header class="site-header">
+   <div class="wrap">
+    <nav class="site-nav">
+     <div>
+      <a class="page-link" href="/about/">About</a><a class="page-link" href="/mini-server/">Mini-Server</a><a class="page-link active" href="/rrun/">rRun</a>
+     </div>
+    </nav>
+   </div>
+  </header>
+
+  <div class="page-content">
+   <div class="wrap">
+    <div class="post">
+
+  <header class="post-header">
+    <h1>rRun - Lightweight bash based application launcher </h1>
+  </header>
+
+  <article class="post-content">
+    <p>On my primary machine I run Debian GNU/Linux. Several times over the last few years I have looked for a stand alone application launcher. There are several available, however each time I’ve used them I have missed features of bash which enable me to be more productive. In particular I missed advanced completion and reverse history search.</p>
+
+<p>The table below lists some of the characteristics present in bash that I would hope to see in a launcher. There were several launchers that were frequently recommend on websites, for each of these there is a column indicating if it correctly performs the completion. In addition rRun is included. Bold indicates the portion bash would complete.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Valid Completions</th>
+      <th>Example</th>
+      <th>gexec</th>
+      <th>gmrun</th>
+      <th>grun</th>
+      <th>xfce4-appfinder</th>
+      <th>rRun</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Executable</td>
+      <td>gee<strong>qie</strong></td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Absolute path</td>
+      <td>geeqie /h<strong>ome</strong></td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Relative path</td>
+      <td>geeqie p<strong>hotos</strong></td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Executable for sudo command</td>
+      <td>sudo gee<strong>qie</strong></td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>sbin executable for sudo command</td>
+      <td>sudo mkfs.v<strong>fat</strong></td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Non-file argument</td>
+      <td>aptitude sh<strong>ow</strong> geeq<strong>ie</strong></td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Ability to display multiple options</td>
+      <td>g</td>
+      <td>N</td>
+      <td>Y</td>
+      <td>N</td>
+      <td>Y</td>
+      <td>Y</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Launchers that can complete commands and arguments are susceptible to completing invalid terms. The table below shows if the launcher correctly suppresses the completion (i.e. ‘Y’ is good ‘N’ is bad). Bold indicates the invalid portion completed.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Invalid Completions</th>
+      <th>Example</th>
+      <th>gexec</th>
+      <th>gmrun</th>
+      <th>rRun</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Executable where file needed</td>
+      <td>geeqie gee<strong>qie</strong></td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>File where executable neede</td>
+      <td>/etc/hostn<strong>ame</strong></td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>File argument when file is not valid</td>
+      <td>kill /mn<strong>t</strong></td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Non-Completion Features</th>
+      <th>gexec</th>
+      <th>gmrun</th>
+      <th>grun</th>
+      <th>xfce4-appfinder</th>
+      <th>rRun</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Execute sudo command</td>
+      <td>Y (with check box)</td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Repeat last command from history</td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>Y</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <td>Reverse history search</td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>N</td>
+      <td>Y</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In addition bash has some other features which occasionally come in handy in a launcher:</p>
+
+<ul>
+  <li>Complex history substitution</li>
+  <li>Pipelines and redirection</li>
+  <li>Inline scripts</li>
+  <li>Aliases</li>
+  <li>User defined functions</li>
+</ul>
+
+<p>It seemed to me that the tool I was looking for had to be built on bash. For a while I simply used an x-terminal-emulator to launch applications, however there were several characteristics I didn’t like about this approach:</p>
+
+<ul>
+  <li>While applications are running the screen will be cluttered by x-terminal-emulator windows</li>
+  <li>Once an application has closed, the associated x-terminal-window will need to be manually closed</li>
+  <li>The statement will only be added to the history once completed</li>
+</ul>
+
+<p>The solution I developed preforms all of the completions correctly and overcomes the problems of just using an x-terminal-emulator. It uses a normal x-terminal-emulator window running an interactive bash shell.</p>
+
+<ol>
+  <li>The user enters a script (or simple command)
+    <ul>
+      <li>they can use any normal bash features including
+        <ul>
+          <li>all history features</li>
+          <li>advanced tab completion</li>
+          <li>multi-line script entry, etc</li>
+        </ul>
+      </li>
+      <li>the window shows multiple lines so tab completion options are easy to view</li>
+    </ul>
+  </li>
+  <li>The user hits enter
+    <ul>
+      <li>the command is started</li>
+      <li>the x-terminal-emulator window disappears (is not present on screen, task bar, pager etc)</li>
+      <li>the command is immediately added to the history
+        <ul>
+          <li>if it meets the user’s normal requirements to be added to the history</li>
+          <li>if a ~/.rrun_history file is present it will be used, otherwise the users default bash history file will be used</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>As the script runs, if it uses sudo and a password is required, an ssh-askpass GUI will be displayed to allow the password to be entered</li>
+</ol>
+
+<p>In addition to the basic launcher functionality rRun supports display of the console output. Consider for example a program started using a launcher stops responding or crashes, it would be handy to be able to see the console. rRun windows remain available for 1 minute after the application exits. The command line tool <code class="highlighter-rouge">rrunctl</code> can be used to display or hide rRun launcher windows. I have shortcuts configured for interacting with rRun:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key Combination</th>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">Super + r</code></td>
+      <td><code class="highlighter-rouge">rrun</code></td>
+      <td>Launch a new rRun window ready to enter a new script (command)</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Super + b</code></td>
+      <td><code class="highlighter-rouge">rrunctl toggle</code></td>
+      <td>Toggle visibility of the rRun window (if the active window was launched by rRun, display the associated rRun, if the current window is an rRun window hide it)</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Super + Alt + r</code></td>
+      <td><code class="highlighter-rouge">rrunctl showcompleted</code></td>
+      <td>Show all rRun windows for recently completed scripts</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="screenshots">Screenshots</h2>
+
+<p><a href="/images/rrun-screenshots/rRunMultipleOptions.png" data-lightbox="screenshots" data-title="Tab completion works like normal"><img src="/images/rrun-screenshots/rRunMultipleOptions.png" alt="Screenshot of rrun showing tab completion" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/rrun-screenshots/rRunRunningACommand.png" data-lightbox="screenshots" data-title="When executing, command output is shown in the console"><img src="/images/rrun-screenshots/rRunRunningACommand.png" alt="Screenshot of rrun while a command is executing" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/rrun-screenshots/rRunAfterCommandCompleted.png" data-lightbox="screenshots" data-title="After the command has completed, the command output is still visible"><img src="/images/rrun-screenshots/rRunAfterCommandCompleted.png" alt="Screenshot of rrun after the command has completed" class="lightbox-thumb lightbox-thumb" /></a></p>
+
+<h2 id="download">Download</h2>
+
+<p>rRun is released under the GPL3 license, the source code is available on <a href="https://github.com/reubenpeeris/rrun">GitHub</a>.</p>
+
+
+  </article>
+
+</div>
+
+   </div>
+  </div>
+   <footer class="site-footer">
+    <div class="wrap">
+     <div class="footer-column footer-column-left">
+      <p>
+       Content is available under the <a href="http://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA</a> license.
+      </p>
+     </div>
+   
+     <div class="footer-column footer-column-right">
+      <address>
+       <a href="mailto:reuben@reubenpeeris.com?subject=http://www.reubenpeeris.com">reuben@reubenpeeris.com</a>
+      </address>
+     </div>
+    </div>
+   </footer>
+
+ </body>
+</html>

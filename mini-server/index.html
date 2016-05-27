@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Mini-Server</title>
+  <meta charset="utf-8">
+  <meta name="description" content="This site contains bits and pieces I've made, or am interested in.">
+
+  <link rel="canonical" href="/mini-server/">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"/>
+  <link rel="stylesheet" href="/css/main.css">
+ </head>
+
+ <body>
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+  
+  <header class="site-header">
+   <div class="wrap">
+    <nav class="site-nav">
+     <div>
+      <a class="page-link" href="/about/">About</a><a class="page-link active" href="/mini-server/">Mini-Server</a><a class="page-link" href="/rrun/">rRun</a>
+     </div>
+    </nav>
+   </div>
+  </header>
+
+  <div class="page-content">
+   <div class="wrap">
+    <div class="post">
+
+  <header class="post-header">
+    <h1>Mini-Server</h1>
+  </header>
+
+  <article class="post-content">
+    <p>Several people have asked me about the mini-server I have set up. First I will summarise the way I intend to use the machine, then explain how I took those guidelines to make requirements for each component and finally I’ll list the components selected.</p>
+
+<h2 id="how-the-machine-will-be-used">How The Machine Will Be Used</h2>
+
+<ul>
+  <li>On 24/7 (much of the time idle)</li>
+  <li>Running services including:
+    <ul>
+      <li>MySQL</li>
+      <li>Tomcat (running on OpenJDK)</li>
+      <li>NFS</li>
+      <li>Samba</li>
+      <li>Squeezebox Server</li>
+    </ul>
+  </li>
+  <li>Data will be backed up regularly to 2.5” 7200 rpm USB disks.</li>
+</ul>
+
+<h2 id="considerations-based-on-the-requirements">Considerations Based on the Requirements</h2>
+
+<h3 id="cpu">CPU</h3>
+
+<p>Until the <a href="http://openjdk.java.net/projects/zero/">Zero-Assembler Project</a> is complete, OpenJDK supports only a limited number of CPU platforms. The 2 platforms that are most suitable for a mini-server are x64 or ARM. Of these, only x64 is supported by OpenJDK. All x64 CPUs should be capable of running the currently foreseen programs. A low power CPU would be preferable. The most popular choices are:</p>
+
+<ul>
+  <li>Intel Atom D2700</li>
+  <li>AMD E350</li>
+  <li>AMD E450</li>
+</ul>
+
+<p>To this list I will add a slightly unusual candidate:</p>
+
+<ul>
+  <li>Intel Celeron 847</li>
+</ul>
+
+<p>For this server, it will be in a near idle state more that it will be active. Idle energy consumption should be a reasonable predictor of actual energy consumption. The power of the combination of CPU, chipset and motherboard is more important than the CPU in isolation.</p>
+
+<p>There is a comparison of several motherboards at <a href="http://uk.hardware.info/reviews/3316/12/mini-itx-motherboards-review---part-1-integrated-cpu-energy-consumption">hardware.info</a>. The lowest power consumption for each CPU type is included in the table below (note the worst performing boards draw &gt;50% more power than the best). The website does not list a Celeron 847 motherboard, so for that CPU, I have taken the figures from <a href="http://www.silentpcreview.com/forums/viewtopic.php?p=570472&amp;sid=60c04b2b348b9771c5e02cb3ff320c34#p570472">silentpcreview.com</a></p>
+
+<p>Clock speed is quite a poor indicator of CPU performance when comparing different architectures. A better comparison is to use a benchmark. I’ve added the figures from <a href="http://www.cpubechmark.net/">cpubechmark.net</a> to the table below.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>CPU</th>
+      <th>Clock Speed (GHz)</th>
+      <th>TDP (W)</th>
+      <th>Idle (W)</th>
+      <th>PassMark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AMD E350</td>
+      <td>1.6</td>
+      <td>18</td>
+      <td>20.0</td>
+      <td><a href="http://www.cpubenchmark.net/cpu.php?id=1777">609</a></td>
+    </tr>
+    <tr>
+      <td>AMD E450</td>
+      <td>1.7</td>
+      <td>18</td>
+      <td>22.9</td>
+      <td><a href="http://www.cpubenchmark.net/cpu.php?id=250">805</a></td>
+    </tr>
+    <tr>
+      <td>Intel Atom D2700</td>
+      <td>2.13</td>
+      <td>13</td>
+      <td>21.3</td>
+      <td><a href="http://www.cpubenchmark.net/cpu.php?id=607">833</a></td>
+    </tr>
+    <tr>
+      <td>Intel Celeron 847</td>
+      <td>1.1</td>
+      <td>17</td>
+      <td>20.0</td>
+      <td><a href="http://www.cpubenchmark.net/cpu.php?id=661">1046</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Celeron draws the equal lowest power and in the benchmark out performs the other CPUs significantly. This surprised me, investigating further I found that the Celeron performs graphics tasks quite poorly, so for many applications the more popular CPUs would actually be a better fit. For my use though the Celeron looks ideal, so I have used that CPU.</p>
+
+<h3 id="disks-etc">Disks etc</h3>
+
+<p>All data (including operating system) is stored on a RAID mirror. In case of a single drive failure the machine will continue to function. There are 3 options for RAID: software, firmware or hardware. There are low power motherboards available that have firmware RAID but none that have proper hardware RAID built in. To use hardware RAID an expensive addon card would be needed. RAID 1 (mirroring) is the least complex RAID level, a hardware RAID controller will usually only slightly out perform software RAID - it didn’t seem worth it for this machine. There is no standard for how firmware RAID controllers store data on the disk. This can make recovering data from the drive difficult if the controller fails. With a drive taken from a Linux RAID mirror, it is very easy to mount even for example if the drive is in an external caddy, so I’ve used Linux RAID.</p>
+
+<p>Many of the tasks will not require fast disk IO, however the one that will be most affected is bulk backups. The performance of a bulk backup will be at most as fast as the backup medium. The fastest backup disk is a <a href="http://www.storagereview.com/hitachi_travelstar_7k500_review">Hitachi Travelstar 7k500</a>. CrystalDiskMark 500MB sequential transfer test shows a maximum read rate of 110.4 MB/s. For the mini-server the lowest power 500GB hard drive that supports comparable throughput would be ideal. The first 4 rows in the table show typical values for 2.5” and 3.5” drives in 5400 rpm and 7200 rpm spindle speeds.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Physical Size</th>
+      <th>Spindle Speed</th>
+      <th>IO Meter 2MB sequential read</th>
+      <th>Max CrystalDiskMark 500MB</th>
+      <th>Idle Power (W)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="http://www.storagereview.com/western_digital_caviar_black_review_2tb">Western Digital Caviar Black</a></td>
+      <td>3.5”</td>
+      <td>7200</td>
+      <td>133.04</td>
+      <td>145.4</td>
+      <td>6.41</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.storagereview.com/western_digital_caviar_blue_1tb_review_wd10ealx">Western Digital Caviar Blue</a></td>
+      <td>3.5”</td>
+      <td>5400</td>
+      <td>131.0</td>
+      <td>149.9</td>
+      <td>5.47</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.storagereview.com/western_digital_scorpio_black_500gb_review_wd5000bekt">Western Digital Scorpio Black</a></td>
+      <td>2.5”</td>
+      <td>7200</td>
+      <td>103.54</td>
+      <td>110.2</td>
+      <td>0.99</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.storagereview.com/western_digital_scorpio_blue_review_750gb_wd7500bpvt">Western Digital Scorpio Blue</a></td>
+      <td>2.5”</td>
+      <td>5400</td>
+      <td>93.03</td>
+      <td>99.66</td>
+      <td>0.63</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.storagereview.com/western_digital_scorpio_blue_review_500gb_7mm_wd5000lpvt">Western Digital Scorpio Blue (WD5000LPVT)</a></td>
+      <td>2.5”</td>
+      <td>5400</td>
+      <td>116.58</td>
+      <td>120.8</td>
+      <td>0.6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The last row shows a single platter 2.5” drive which is idea for this server. The read speed is faster than typical 7200 rpm drives and it consumes less power when idle than typical 5400 rpm drives. Note I’ve listed the exact model number as there are other drives that are named “Scorpio Blue 500GB” that are multi-platter drives and do not have these characteristics.</p>
+
+<h3 id="connectivity">Connectivity</h3>
+
+<p>USB 2.0 can theoretically support data transfers of 60MB/s which is around half the peak sequential read and write speed of the internal and external drives. The faster alternatives are USB3 or eSATA. My laptop supports USB3 and in general is more widely supported (especially due to backwards compatibility), so I’ve opted for USB3.</p>
+
+<h3 id="case--psu">Case / PSU</h3>
+
+<p>The <a href="http://www.anandtech.com/show/6192/antec-isk-110-vesa-case-review-just-about-as-small-as-it-gets">Antec ISK 110</a> is compact, with good ventilation and a 92% efficient PSU. It accommodates 2x2.5” drives but provides almost no superfluous space.</p>
+
+<h3 id="misc">Misc</h3>
+<p>I only found 1 family of motherboards that have Celeron 847 CPUs and supports USB3 on the chipset. Due to the small CPU heatsinks, a fan is required. The 40mm fan that is provided with the motherboard spins quite fast and is quite noisy. because of the close proximity of the CPU to the mesh side of the case it is possible to mount a fan to the case that causes air flow through the heat sink. Noctura make premium fans that are efficient, quiet and come with a 5 year warranty. I selected a 140mm fan that supports PWM speed control. The speed is controlled through the BIOS based on the temperature. Once booted but idle, with the stock fan and an ambient temperature of 18℃ the CPU temperature remains about 40℃. With the Noctura running at 60% duty cycle (the lowest this BIOS supports) the CPU idles at about 29℃. The fan is quiet but not quite silent. When the hard disks are active they are considerably louder than the fan.</p>
+
+<h2 id="component-list">Component List</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Description</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Motherboard/CPU</td>
+      <td>Asus C8HM70-W/HDMI</td>
+      <td>£63.04</td>
+    </tr>
+    <tr>
+      <td>Fan</td>
+      <td>Noctura NF-A9x14</td>
+      <td>£14.95</td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td>Corsair Vengeance 8GB DDR3</td>
+      <td>£39.22</td>
+    </tr>
+    <tr>
+      <td>Hard Drives</td>
+      <td>2x Western Digital Scorpio Blue 500GB 7mm (WD5000LPVT)</td>
+      <td>£83.83</td>
+    </tr>
+    <tr>
+      <td>Case / PSU</td>
+      <td>Antec ISK 110</td>
+      <td>£69.57</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td> </td>
+      <td>£270.61</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="performance">Performance</h2>
+<p>So far every task I’ve used it for has performed as expected. Restoring data from an external drive over USB3 averaged over 70MB/s even though many of the files were small. When booted but sitting idle, the power consumption is steady at 17.5W. I think this is good - the energy consumption is less than most of the single disk system on the market. I have also written a sleeponlan script that suspends the machine when inactive for a while. I’ll post some info on that later.</p>
+
+<h2 id="photos">Photos</h2>
+
+<p><a href="/images/mini-server/0.jpg" data-lightbox="photos" data-title="Note the brown rubber posts that the fan is mounted on"><img src="/images/mini-server/0.jpg" alt="Left side of the server" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/mini-server/1.jpg" data-lightbox="photos" data-title=""><img src="/images/mini-server/1.jpg" alt="again" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/mini-server/2.jpg" data-lightbox="photos" data-title=""><img src="/images/mini-server/2.jpg" alt="Internal view of the server" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/mini-server/3.jpg" data-lightbox="photos" data-title="Near the bottom of the image is a hole I made to mount the fan"><img src="/images/mini-server/3.jpg" alt="Outside of the server showing whole to mount fan" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/mini-server/4.jpg" data-lightbox="photos" data-title="Inside view of the side panel, showing the fan mountings"><img src="/images/mini-server/4.jpg" alt="Inside view of the side panel, showing the fan mountings" class="lightbox-thumb lightbox-thumb" /></a></p>
+
+
+  </article>
+
+</div>
+
+   </div>
+  </div>
+   <footer class="site-footer">
+    <div class="wrap">
+     <div class="footer-column footer-column-left">
+      <p>
+       Content is available under the <a href="http://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA</a> license.
+      </p>
+     </div>
+   
+     <div class="footer-column footer-column-right">
+      <address>
+       <a href="mailto:reuben@reubenpeeris.com?subject=http://www.reubenpeeris.com">reuben@reubenpeeris.com</a>
+      </address>
+     </div>
+    </div>
+   </footer>
+
+ </body>
+</html>
