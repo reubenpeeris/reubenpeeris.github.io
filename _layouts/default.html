@@ -2,10 +2,9 @@
 <html>
 {% include head.html %}
  <body>
-  {% if page.includes contains 'lightbox' %}
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
-  {% endif %}
+  {% if page.includes contains 'lightbox' %}<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>{% endif %}
+{% include google-analytics.html %}
 {% include header.html %}
   <div class="page-content">
    <div class="wrap">
