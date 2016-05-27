@@ -1,4 +1,6 @@
-Content for reubenpeeris.github.io and www.reubenpeeris.com
+## Overview
+
+This is the content for reubenpeeris.github.io and www.reubenpeeris.com
 
 This site is generated using jekyll. GitHub pages supports jekyll, but only supports a very limited number of plugins. In order to use unsupported plugins, this site needs to be generated manually.
 
@@ -22,3 +24,12 @@ When work has been completed, it should be committed to the jekyll branch and pu
   2. commit the content to the master branch
   3. push the changes to GitHub
 
+## Build-machine install
+
+To build this website will require a number of tools to be installed:
+
+```
+sudo aptitude install ruby ruby-dev
+sudo gem install jekyll
+sudo gem install jekyll-gist
+```

@@ -1,12 +1,9 @@
-<head>
- <meta charset="utf-8">
- <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
- <meta name="description" content="{{ site.description }}">
- <link rel="canonical" href="{{ page.url | replace:'index.html','' }}">
+ <head>
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta charset="utf-8">
+  <meta name="description" content="{{ site.description }}">
 
- {% if page.includes contains 'lightbox' %}
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"/>
- {% endif %}
-
- <link rel="stylesheet" href="/css/main.css">
-</head>
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' }}">
+  {% if page.includes contains 'lightbox' %}<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"/>{% endif %}
+  <link rel="stylesheet" href="/css/main.css">
+ </head>

@@ -1,11 +1,9 @@
-<header class="site-header">
- <div class="wrap">
-  <nav class="site-nav">
-   <div>
-    {% for node in site.pages %}
-     {% if node.title %}<a class="page-link{% if node.url == page.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>{% endif %}
-    {% endfor %}
+  <header class="site-header">
+   <div class="wrap">
+    <nav class="site-nav">
+     <div>
+      {% for node in site.pages %}{% if node.title %}<a class="page-link{% if node.url == page.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>{% endif %}{% endfor %}
+     </div>
+    </nav>
    </div>
-  </nav>
- </div>
-</header>
+  </header>

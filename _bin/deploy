@@ -34,8 +34,8 @@ head() {
 }
 
 build_jekyll() {
- bundle exec jekyll clean
- bundle exec jekyll build
+ jekyll clean
+ jekyll build
 }
 
 checkout_master() {
@@ -48,7 +48,7 @@ update_files() {
  [[ -d .git ]] && find . -maxdepth 1 -not -name .gitignore -not -name '.git' -and -not -name '_site' -and -not -name '.' -and -not -name '..' -exec rm -Rf "{}" \;
  cp -r _site/. ./
 
- rm -R _site Gemfile Gemfile.lock
+ rm -R _site
 }
 
 # this uses porcelain commands!

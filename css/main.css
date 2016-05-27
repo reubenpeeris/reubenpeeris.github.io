@@ -149,3 +149,9 @@ a:visited { color: #739240; }
   padding-left: 0;
 }
 
+img.lightbox-thumb {
+  margin: 5px;
+  max-height: 200px;
+  max-width: 200px;
+}
+

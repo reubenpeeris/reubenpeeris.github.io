@@ -3,5 +3,5 @@
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 cd ..
 
-bundle exec jekyll clean
-bundle exec jekyll serve --incremental
+jekyll clean
+jekyll serve --incremental "$@"
