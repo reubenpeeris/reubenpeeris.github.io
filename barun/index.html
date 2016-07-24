@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>rRun</title>
+  <title>baRun</title>
   <meta charset="utf-8">
   <meta name="description" content="This site contains bits and pieces I've made, or am interested in.">
 
-  <link rel="canonical" href="/rrun/">
+  <link rel="canonical" href="/barun/">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"/>
   <link rel="stylesheet" href="/css/main.css">
  </head>
@@ -28,7 +28,7 @@
    <div class="wrap">
     <nav class="site-nav">
      <div>
-      <a class="page-link" href="/about/">About</a><a class="page-link" href="/mini-server/">Mini-Server</a><a class="page-link active" href="/rrun/">rRun</a>
+      <a class="page-link" href="/about/">About</a><a class="page-link active" href="/barun/">baRun</a><a class="page-link" href="/mini-server/">Mini-Server</a>
      </div>
     </nav>
    </div>
@@ -39,13 +39,13 @@
     <div class="post">
 
   <header class="post-header">
-    <h1>rRun - Lightweight bash based application launcher </h1>
+    <h1>baRun - Lightweight bash based application launcher </h1>
   </header>
 
   <article class="post-content">
     <p>On my primary machine I run Debian GNU/Linux. Several times over the last few years I have looked for a stand alone application launcher. There are several available, however each time I’ve used them I have missed features of bash which enable me to be more productive. In particular I missed advanced completion and reverse history search.</p>
 
-<p>The table below lists some of the characteristics present in bash that I would hope to see in a launcher. There were several launchers that were frequently recommend on websites, for each of these there is a column indicating if it correctly performs the completion. In addition rRun is included. Bold indicates the portion bash would complete.</p>
+<p>The table below lists some of the characteristics present in bash that I would hope to see in a launcher. There were several launchers that were frequently recommend on websites, for each of these there is a column indicating if it correctly performs the completion. In addition baRun is included. Bold indicates the portion bash would complete.</p>
 
 <table>
   <thead>
@@ -56,7 +56,7 @@
       <th>gmrun</th>
       <th>grun</th>
       <th>xfce4-appfinder</th>
-      <th>rRun</th>
+      <th>baRun</th>
     </tr>
   </thead>
   <tbody>
@@ -135,7 +135,7 @@
       <th>Example</th>
       <th>gexec</th>
       <th>gmrun</th>
-      <th>rRun</th>
+      <th>baRun</th>
     </tr>
   </thead>
   <tbody>
@@ -171,7 +171,7 @@
       <th>gmrun</th>
       <th>grun</th>
       <th>xfce4-appfinder</th>
-      <th>rRun</th>
+      <th>baRun</th>
     </tr>
   </thead>
   <tbody>
@@ -242,7 +242,7 @@
       <li>the command is immediately added to the history
         <ul>
           <li>if it meets the user’s normal requirements to be added to the history</li>
-          <li>if a ~/.rrun_history file is present it will be used, otherwise the users default bash history file will be used</li>
+          <li>if a ~/.barun_history file is present it will be used, otherwise the users default bash history file will be used</li>
         </ul>
       </li>
     </ul>
@@ -250,7 +250,7 @@
   <li>As the script runs, if it uses sudo and a password is required, an ssh-askpass GUI will be displayed to allow the password to be entered</li>
 </ol>
 
-<p>In addition to the basic launcher functionality rRun supports display of the console output. Consider for example a program started using a launcher stops responding or crashes, it would be handy to be able to see the console. rRun windows remain available for 1 minute after the application exits. The command line tool <code class="highlighter-rouge">rrunctl</code> can be used to display or hide rRun launcher windows. I have shortcuts configured for interacting with rRun:</p>
+<p>In addition to the basic launcher functionality baRun supports display of the console output. Consider for example a program started using a launcher stops responding or crashes, it would be handy to be able to see the console. baRun windows remain available for 1 minute after the application exits. The command line tool <code class="highlighter-rouge">barunctl</code> can be used to display or hide baRun launcher windows. I have shortcuts configured for interacting with baRun:</p>
 
 <table>
   <thead>
@@ -263,31 +263,31 @@
   <tbody>
     <tr>
       <td><code class="highlighter-rouge">Super + r</code></td>
-      <td><code class="highlighter-rouge">rrun</code></td>
-      <td>Launch a new rRun window ready to enter a new script (command)</td>
+      <td><code class="highlighter-rouge">barun</code></td>
+      <td>Launch a new baRun window ready to enter a new script (command)</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">Super + b</code></td>
-      <td><code class="highlighter-rouge">rrunctl toggle</code></td>
-      <td>Toggle visibility of the rRun window (if the active window was launched by rRun, display the associated rRun, if the current window is an rRun window hide it)</td>
+      <td><code class="highlighter-rouge">barunctl toggle</code></td>
+      <td>Toggle visibility of the baRun window (if the active window was launched by baRun, display the associated baRun, if the current window is an baRun window hide it)</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">Super + Alt + r</code></td>
-      <td><code class="highlighter-rouge">rrunctl showcompleted</code></td>
-      <td>Show all rRun windows for recently completed scripts</td>
+      <td><code class="highlighter-rouge">barunctl showcompleted</code></td>
+      <td>Show all baRun windows for recently completed scripts</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="screenshots">Screenshots</h2>
 
-<p><a href="/images/rrun-screenshots/rRunMultipleOptions.png" data-lightbox="screenshots" data-title="Tab completion works like normal"><img src="/images/rrun-screenshots/rRunMultipleOptions.png" alt="Screenshot of rrun showing tab completion" class="lightbox-thumb lightbox-thumb" /></a>
-<a href="/images/rrun-screenshots/rRunRunningACommand.png" data-lightbox="screenshots" data-title="When executing, command output is shown in the console"><img src="/images/rrun-screenshots/rRunRunningACommand.png" alt="Screenshot of rrun while a command is executing" class="lightbox-thumb lightbox-thumb" /></a>
-<a href="/images/rrun-screenshots/rRunAfterCommandCompleted.png" data-lightbox="screenshots" data-title="After the command has completed, the command output is still visible"><img src="/images/rrun-screenshots/rRunAfterCommandCompleted.png" alt="Screenshot of rrun after the command has completed" class="lightbox-thumb lightbox-thumb" /></a></p>
+<p><a href="/images/barun-screenshots/baRunMultipleOptions.png" data-lightbox="screenshots" data-title="Tab completion works like normal"><img src="/images/barun-screenshots/baRunMultipleOptions.png" alt="Screenshot of barun showing tab completion" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/barun-screenshots/baRunRunningACommand.png" data-lightbox="screenshots" data-title="When executing, command output is shown in the console"><img src="/images/barun-screenshots/baRunRunningACommand.png" alt="Screenshot of barun while a command is executing" class="lightbox-thumb lightbox-thumb" /></a>
+<a href="/images/barun-screenshots/baRunAfterCommandCompleted.png" data-lightbox="screenshots" data-title="After the command has completed, the command output is still visible"><img src="/images/barun-screenshots/baRunAfterCommandCompleted.png" alt="Screenshot of barun after the command has completed" class="lightbox-thumb lightbox-thumb" /></a></p>
 
 <h2 id="download">Download</h2>
 
-<p>rRun is released under the GPL3 license, the source code is available on <a href="https://github.com/reubenpeeris/rrun">GitHub</a>.</p>
+<p>baRun is released under the GPL3 license, the source code is available on <a href="https://github.com/reubenpeeris/barun">GitHub</a>.</p>
 
 
   </article>
