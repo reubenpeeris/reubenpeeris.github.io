@@ -26,10 +26,25 @@ When work has been completed, it should be committed to the jekyll branch and pu
 
 ## Build-machine install
 
-To build this website will require a number of tools to be installed:
+To build this website will require a number of tools to be installed, the following should work on debian based linux distributions:
 
+### Install ruby and ruby-dev ###
+If using a recent distribution:
 ```
+sudo aptitude update
 sudo aptitude install ruby ruby-dev
+```
+
+If using an old distribution
+```
+sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo aptitude update
+sudo aptitude install ruby2.4 ruby2.4-dev
+```
+
+### Install the required jekyll tools ###
+```
 sudo gem install jekyll
 sudo gem install jekyll-gist
 ```
+
