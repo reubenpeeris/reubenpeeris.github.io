@@ -6,7 +6,7 @@ url: "http://www.reubenpeeris.com"
 time_zone: GB
 encoding: utf-8
 
-gems:
+plugins:
   - jekyll-redirect-from
   - jekyll-gist
 
