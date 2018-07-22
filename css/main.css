@@ -11,11 +11,6 @@ c86000 dark orange
 
 @import url('https://fonts.googleapis.com/css?family=Maven+Pro');
 
-* {
-  margin: 0;
-  padding: 0;
-}
-
 html, body {
   font-family: 'Maven Pro', sans-serif;
   height: 100%;
@@ -35,7 +30,6 @@ a:visited { color: #739240; }
 /* Utility */
 
 .wrap:before,
-.wrap:after { content:""; display:table; }
 .wrap:after { clear: both; }
 .wrap {
   padding: 0 2em;
@@ -56,8 +50,23 @@ a:visited { color: #739240; }
   border-bottom: 1px solid #444444;
 }
 
+.logo-name-block {
+  padding: 5px 0;
+}
+
+.logo-name-block:before {
+  display: inline-block;
+  height: 100%; 
+  vertical-align: middle;
+}
+
+.logo {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .site-nav {
-  line-height: 3em;
+  display: inline;
 }
 
 .site-nav .page-link {
@@ -158,4 +167,3 @@ img.lightbox-thumb {
   max-height: 200px;
   max-width: 200px;
 }
-
