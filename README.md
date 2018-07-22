@@ -29,7 +29,8 @@ When work has been completed, it should be committed to the jekyll branch and pu
 To build this website will require a number of tools to be installed:
 
 ```
-sudo aptitude install ruby ruby-dev
+sudo aptitude install -y ruby ruby-dev
 sudo gem install jekyll
 sudo gem install jekyll-gist
+sudo gem install jekyll-redirect-from
 ```
